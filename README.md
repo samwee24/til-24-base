@@ -109,6 +109,7 @@ To build your container, run the following command from where your Dockerfile is
 
 ```bash
 docker build -t TEAM-NAME-asr .
+docker build -t relearning-vlm .
 ```
 
 Note that while you _can_ tag your containers anything you want, we recommend you name it something like `{TEAM-NAME}-{TASK}`, and all examples will follow this naming convention.
@@ -146,6 +147,9 @@ You tag your container (`TEAM-NAME-asr` in the below example) locally with your 
 ```bash
 docker tag TEAM-NAME-asr asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-TEAM-NAME/TEAM-NAME-asr:latest
 docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-TEAM-NAME/TEAM-NAME-asr:latest
+
+docker tag relearning-vlm asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-relearning/relearning-vlm:latest
+docker push asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-relearning/relearning-vlm:latest
 ```
 
 When your model is pushed successfully, you should be able to see it under your team's repository on [Artifact Registry](https://console.cloud.google.com/artifacts/docker/dsta-angelhack/asia-southeast1).
@@ -158,6 +162,9 @@ Take note to update the flags `--container-health-route`, `--container-predict-r
 
 ```bash
 gcloud ai models upload --region asia-southeast1 --display-name 'TEAM-NAME-asr' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-TEAM-NAME/TEAM-NAME-asr:latest --container-health-route /health --container-predict-route /stt --container-ports 5001 --version-aliases default
+
+
+gcloud ai models upload --region asia-southeast1 --display-name 'relearning-vlm' --container-image-uri asia-southeast1-docker.pkg.dev/dsta-angelhack/repository-relearning/relearning-vlm:latest --container-health-route /health --container-predict-route /identify --container-ports 5004 --version-aliases default
 ```
 
 Shortly after successfully running the command, you should receive a Discord notification providing a link to review the status of a batch prediction job which evalulates your model accuracy and speed. If you do not, ping `@alittleclarity` on the BH24 TIL-AI Discord server in your team's private channel.
